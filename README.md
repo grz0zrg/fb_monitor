@@ -11,6 +11,17 @@ This can be adapted for all sort of needs.
 
 To compile it, you will need my [framebuffer graphics library](https://github.com/grz0zrg/fbg) and libcurl.
 
+Linux framebuffer streaming example (with twitch service) :
+
+```
+ffmpeg -f fbdev -framerate 25 -i /dev/fb0 -c:v libx264 -preset veryfast -maxrate 2000k -bufsize 4000k -vf "format=yuv420p" -g 50 -f flv rtmp://live.twitch.tv/app/<stream key>
+```
+
+## Screenshots
+
+![Prusa 3D printer monitoring with octoprint](/screenshot.png?raw=true "Prusa 3D printer monitoring with octoprint")
+
 License
 =====
+
 BSD, see LICENSE file
