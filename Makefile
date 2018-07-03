@@ -7,13 +7,14 @@ SRC_LIBS=../../src/lodepng/lodepng.c ../../src/fbgraphics.c
 SRC=$(SRC_LIBS) octo_monitor.c
 OUT=octo_monitor
 LIBS=-lm -lpthread liblfds720.a -lcurl
+ULFIUS=-ljansson -lyder -lorcania -lulfius -lmicrohttpd
 INCS=-I ../../src/ -I.
 
 all:
-	$(CC) $(SRC) $(INCS) $(STANDARD_FLAGS) $(RELEASE_FLAGS) $(LIBS) -o $(OUT)
+	$(CC) $(SRC) $(INCS) $(STANDARD_FLAGS) $(RELEASE_FLAGS) $(ULFIUS) $(LIBS) -o $(OUT)
 
 debug:
-	$(CC) $(SRC) $(INCS) $(STANDARD_FLAGS) $(DEBUG_FLAGS) $(LIBS) -o $(OUT)
+	$(CC) $(SRC) $(INCS) $(STANDARD_FLAGS) $(DEBUG_FLAGS) $(ULFIUS) $(LIBS) -o $(OUT)
 
 clean:
 	rm -f *.o $(OUT)
