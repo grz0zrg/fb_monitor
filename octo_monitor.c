@@ -156,6 +156,9 @@ int main(int argc, char* argv[]) {
                     "printTimeLeft", &print_time_left);
             } else {
                 job_file_name = printer_job_data_fail;
+
+                completion_percent = 0;
+                print_time_left = 0;
             }
 
             const char *state_str = NULL;
@@ -247,6 +250,10 @@ int main(int argc, char* argv[]) {
             }
         } else {
             fbg_writeValue(fbg, 4, 2, 0, 255, 255, 255, "Printer OFF");
+
+            completion_percent = 0;
+            print_time = 0;
+            print_time_left = 0;
         }
 
         fbg_textBackground(fbg, 0, 0, 0, 200);
