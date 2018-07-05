@@ -41,6 +41,7 @@ int main(int argc, char* argv[]) {
     int snapshot_height = 480;
     double snapshot_poll_ms = 500;
     double temp_graph_update_ms = 1500;
+    long snapshot_connect_timeout = 60; // seconds
 
     double octoprint_rest_poll_ms = 1000;
 
@@ -106,7 +107,7 @@ int main(int argc, char* argv[]) {
         if (snap_ms_diff >= snapshot_poll_ms) {
             resetTimer(snap_timer);
 
-            get_err = getRemoteImage(mon_image->data, "http://192.168.0.60:8080/?action=snapshot");
+            get_err = getRemoteImage(mon_image->data, "http://192.168.0.60:8080/?action=snapshot", snapshot_connect_timeout);
 
             fflush(stderr);
         }

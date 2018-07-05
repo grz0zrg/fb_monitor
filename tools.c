@@ -50,7 +50,9 @@ void freeCurl() {
 }
 
 // utility function to get a remote HTTP JPEG image (with curl)
-int getRemoteImage(unsigned char *dst, const char *url) {
+int getRemoteImage(unsigned char *dst, const char *url, long timeout) {
+    curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT, 300);
+    curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, timeout);
     curl_easy_setopt(curl_handle, CURLOPT_URL, url);
     curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, wmem_callback);
     curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)&chunk);
