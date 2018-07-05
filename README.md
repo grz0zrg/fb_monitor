@@ -30,6 +30,8 @@ ffmpeg -f fbdev -framerate 25 -i /dev/fb0 -c:v libx264 -preset veryfast -maxrate
 ![Prusa 3D printer monitoring with octoprint](/screenshot2.png?raw=true "Prusa 3D printer monitoring with octoprint")
 ![Prusa 3D printer monitoring with octoprint](/screenshot3.png?raw=true "Prusa 3D printer monitoring with octoprint")
 
+Note : Screenshot taken from an earlier version which had a small bug in the temp graph (inversed color), this is fixed.
+
 License
 =====
 
