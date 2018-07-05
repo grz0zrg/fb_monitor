@@ -45,9 +45,8 @@ int main(int argc, char* argv[]) {
 
     double octoprint_rest_poll_ms = 1000;
 
-    // prusa MK3
-    double printer_tool_max_temp = 320;
-    double printer_bed_max_temp = 100;
+    // y axis temperature max
+    double printer_max_temp = 320;
 
     char *octoprint_api_key = "56BF85E4C4BF4A198AB9CB3F6E7AD636";
     //
@@ -229,8 +228,8 @@ int main(int argc, char* argv[]) {
                 }
 
                 int stats_y_offset = 14 + 8 * 10;
-                double tool_temp_y = ((1.0 - tool_temp / printer_tool_max_temp) * (fbg->height - stats_y_offset)) + stats_y_offset - 8 * 3;
-                double bed_temp_y = ((1.0 - bed_temp / printer_bed_max_temp) * (fbg->height - stats_y_offset)) + stats_y_offset - 8 * 3;
+                double tool_temp_y = ((1.0 - tool_temp / printer_max_temp) * (fbg->height - stats_y_offset)) + stats_y_offset - 8 * 3;
+                double bed_temp_y = ((1.0 - bed_temp / printer_max_temp) * (fbg->height - stats_y_offset)) + stats_y_offset - 8 * 3;
 
                 fbg_hline(fbg, 0, fbg->height - 8 * 3, fbg->width, 128, 128, 128);
                 fbg_hline(fbg, 0, stats_y_offset - 8 * 3, fbg->width, 128, 128, 128);
