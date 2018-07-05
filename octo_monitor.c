@@ -256,7 +256,7 @@ int main(int argc, char* argv[]) {
         if (printer_data) {
             time_now_y = 14;
         }
-        fbg_writeValue(fbg, -4, time_now_y, 1, 255, 255, 255, "%i:%i:%i", time_now_info->tm_hour, time_now_info->tm_min, time_now_info->tm_sec);
+        fbg_writeValue(fbg, -4, time_now_y, 1, 255, 255, 255, "%02d:%02d:%02d", time_now_info->tm_hour, time_now_info->tm_min, time_now_info->tm_sec);
 
         // get infos from devices in realtime & display result
         int cpu_temp = getFileResultAsInt(cpu_tempf) / 1000;
