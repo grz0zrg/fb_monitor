@@ -84,6 +84,9 @@ int main(int argc, char* argv[]) {
     json_t *printer_data = NULL;
     json_t *printer_job_data = NULL;
 
+    time_t time_now;
+    struct tm *time_now_info;
+
     // job variable
     double completion_percent = 0;
     double tool_temp = 0, bed_temp = 0, tool_temp_prev = 0, bed_temp_prev = 0;
@@ -93,6 +96,9 @@ int main(int argc, char* argv[]) {
     const char *printer_data_fail = "Printer data error";
 
     do {
+        time(&time_now);
+        time_now_info = localtime(&time_now);
+
         fbg_draw(fbg);
 
         // get remote snapshot every N ms
@@ -130,9 +136,9 @@ int main(int argc, char* argv[]) {
 
         // display connection status (from snapshot result)
         if (!get_err) {
-            fbg_writeValue(fbg, -4, 240 - 16 - 2, 1, 0, 0, 255, "Stream DOWN");
+            fbg_writeValue(fbg, -4, fbg->height - 16 - 2, 1, 0, 0, 255, "Stream DOWN");
         } else {
-            fbg_writeValue(fbg, -4, 240 - 16 - 2, 1, 0, 255, 0, "Stream UP");
+            fbg_writeValue(fbg, -4, fbg->height - 16 - 2, 1, 0, 255, 0, "Stream UP");
         }
 
         // display stats from printer data
@@ -163,9 +169,9 @@ int main(int argc, char* argv[]) {
             }
 
             fbg_textBackground(fbg, 0, 0, 255, 200);
-            fbg_writeValue(fbg, 4, 240 - 8 * 2 - 2, 0, 255, 255, 255, "Tool: %.1fC", tool_temp);
+            fbg_writeValue(fbg, 4, fbg->height - 8 * 2 - 2, 0, 255, 255, 255, "Tool: %.1fC", tool_temp);
             fbg_textBackground(fbg, 255, 0, 0, 200);
-            fbg_writeValue(fbg, 4, 240 - 8 - 2, 0, 255, 255, 255, " Bed: %.1fC", bed_temp);
+            fbg_writeValue(fbg, 4, fbg->height - 8 - 2, 0, 255, 255, 255, " Bed: %.1fC", bed_temp);
             
             fbg_textBackground(fbg, 0, 0, 0, 255);
             fbg_writeValue(fbg, 4, 14, 0, 255, 255, 255, "%s", state_str);
@@ -245,12 +251,19 @@ int main(int argc, char* argv[]) {
 
         fbg_textBackground(fbg, 0, 0, 0, 200);
 
+        // display now time, this is usefull to monitor app. crash itself!
+        int time_now_y = 2;
+        if (printer_data) {
+            time_now_y = 14;
+        }
+        fbg_writeValue(fbg, -4, time_now_y, 1, 255, 255, 255, "%i:%i:%i", time_now_info->tm_hour, time_now_info->tm_min, time_now_info->tm_sec);
+
         // get infos from devices in realtime & display result
         int cpu_temp = getFileResultAsInt(cpu_tempf) / 1000;
         if (cpu_temp >= 50) {
-            fbg_writeValue(fbg, 320 - 4, 240 - 8 - 2, 1, 0, 0, 255, "%iC", cpu_temp);
+            fbg_writeValue(fbg, fbg->width - 4, fbg->height - 8 - 2, 1, 0, 0, 255, "%iC", cpu_temp);
         } else {
-            fbg_writeValue(fbg, 320 - 4, 240 - 8 - 2, 1, 0, 255, 0, "%iC", cpu_temp);
+            fbg_writeValue(fbg, fbg->width - 4, fbg->height - 8 - 2, 1, 0, 255, 0, "%iC", cpu_temp);
         }
 
         fbg_flip(fbg);
