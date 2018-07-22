@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
         if (snap_ms_diff >= snapshot_poll_ms) {
             resetTimer(snap_timer);
 
-            get_err = getRemoteImage(mon_image->data, "http://192.168.0.60:8080/?action=snapshot", snapshot_connect_timeout);
+            get_err = getRemoteImage(mon_image->data, "http://192.168.0.60:8080/?action=snapshot", snapshot_connect_timeout, 1);
 
             fflush(stderr);
         }

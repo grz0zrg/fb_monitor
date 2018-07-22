@@ -50,7 +50,7 @@ void freeCurl() {
 }
 
 // utility function to get a remote HTTP JPEG image (with curl)
-int getRemoteImage(unsigned char *dst, const char *url, long timeout) {
+int getRemoteImage(unsigned char *dst, const char *url, long timeout, int bgr) {
     curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT, 300);
     curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT, timeout);
     curl_easy_setopt(curl_handle, CURLOPT_URL, url);
@@ -69,9 +69,26 @@ int getRemoteImage(unsigned char *dst, const char *url, long timeout) {
 
     if (njDecode(chunk.memory, chunk.size)) {
         fprintf(stdout, "Error decoding the input file.\n");
+
         return 0;
     } else {
         unsigned char *data = njGetImage();
+
+        if (bgr) {
+            unsigned char *pix_pointer = data;
+            unsigned char *pix_pointer2 = data;
+
+            int i;
+            for (i = 0; i < njGetImageSize(); i += 3) {
+                int b = *pix_pointer2++;
+                *pix_pointer2++;
+                int r = *pix_pointer2++;
+
+                *pix_pointer++ = r;
+                *pix_pointer++;
+                *pix_pointer++ = b;
+            }
+        }
 
         memcpy(dst, data, njGetImageSize());
     }
